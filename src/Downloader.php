@@ -52,7 +52,7 @@ class Downloader
     private $enabled = true;
     private $composer;
 
-    public function __construct(Composer $composer, IoInterface $io, $rfs)
+    public function __construct(Composer $composer, IOInterface $io, $rfs)
     {
         if (getenv('SYMFONY_CAFILE')) {
             $this->caFile = getenv('SYMFONY_CAFILE');
