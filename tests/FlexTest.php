@@ -375,7 +375,7 @@ EOF
         return $event;
     }
 
-    private function mockConfigurator(Recipe $recipe = null): Configurator
+    private function mockConfigurator(?Recipe $recipe = null): Configurator
     {
         $configurator = $this->getMockBuilder(Configurator::class)->disableOriginalConstructor()->getMock();
 
@@ -406,7 +406,7 @@ EOF
         return $locker;
     }
 
-    private function mockComposer(Locker $locker, RootPackageInterface $package, Config $config = null): Composer
+    private function mockComposer(Locker $locker, RootPackageInterface $package, ?Config $config = null): Composer
     {
         if (null === $config) {
             $config = $this->getMockBuilder(Config::class)->getMock();
@@ -474,7 +474,7 @@ EOF
         }, null, Flex::class)->__invoke();
     }
 
-    private function mockFlex(BufferIO $io, RootPackageInterface $package, Recipe $recipe = null, array $recipes = [], array $lockerData = []): Flex
+    private function mockFlex(BufferIO $io, RootPackageInterface $package, ?Recipe $recipe = null, array $recipes = [], array $lockerData = []): Flex
     {
         $composer = $this->mockComposer($this->mockLocker($lockerData), $package);
 

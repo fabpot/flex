@@ -12,6 +12,7 @@ return (new PhpCsFixer\Config())
         'array_syntax' => ['syntax' => 'short'],
         'ordered_imports' => true,
         'php_unit_no_expectation_annotation' => false, // part of `PHPUnitXYMigration:risky` ruleset, to be enabled when PHPUnit 4.x support will be dropped, as we don't want to rewrite exceptions handling twice
+        'nullable_type_declaration_for_default_null_value' => true,
         'protected_to_private' => false,
     ))
     ->setRiskyAllowed(true)

@@ -568,7 +568,7 @@ EOF
         ];
     }
 
-    private function runConfigure(array $config, Composer $composer = null)
+    private function runConfigure(array $config, ?Composer $composer = null)
     {
         $configurator = $this->createConfigurator($composer);
 
@@ -586,7 +586,7 @@ EOF
         $configurator->unconfigure($recipe, $config, $lock);
     }
 
-    private function createConfigurator(Composer $composer = null)
+    private function createConfigurator(?Composer $composer = null)
     {
         return new AddLinesConfigurator(
             $composer ?: $this->getMockBuilder(Composer::class)->getMock(),
