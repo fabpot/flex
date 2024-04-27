@@ -28,8 +28,6 @@ use Symfony\Flex\Update\RecipeUpdate;
 class DockerComposeConfiguratorTest extends TestCase
 {
     public const ORIGINAL_CONTENT = <<<'YAML'
-version: '3.4'
-
 services:
   app:
     build:
@@ -640,11 +638,10 @@ YAML
     public function testConfigureWithoutExistingDockerComposeFiles()
     {
         $dockerComposeFile = FLEX_TEST_DIR.'/compose.yaml';
-        $defaultContent = "version: '3'\n";
 
         $this->configurator->configure($this->recipeDb, self::CONFIG_DB, $this->lock);
 
-        $this->assertStringEqualsFile($dockerComposeFile, $defaultContent.<<<'YAML'
+        $this->assertStringEqualsFile($dockerComposeFile, <<<'YAML'
 
 services:
 ###> doctrine/doctrine-bundle ###
@@ -671,7 +668,7 @@ YAML
         );
 
         $this->configurator->unconfigure($this->recipeDb, self::CONFIG_DB, $this->lock);
-        $this->assertEquals(trim($defaultContent), file_get_contents($dockerComposeFile));
+        $this->assertEquals('', file_get_contents($dockerComposeFile));
     }
 
     public function testUpdate()
@@ -691,8 +688,6 @@ YAML
         file_put_contents(
             FLEX_TEST_DIR.'/docker-compose.yml',
             <<<EOF
-version: '3'
-
 services:
 ###> doctrine/doctrine-bundle ###
   database:
@@ -768,8 +763,6 @@ EOF
         );
 
         $this->assertSame(['docker-compose.yml' => <<<EOF
-version: '3'
-
 services:
 ###> doctrine/doctrine-bundle ###
   database:
@@ -807,8 +800,6 @@ EOF
         ], $recipeUpdate->getOriginalFiles());
 
         $this->assertSame(['docker-compose.yml' => <<<EOF
-version: '3'
-
 services:
 ###> doctrine/doctrine-bundle ###
   database:
