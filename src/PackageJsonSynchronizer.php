@@ -147,7 +147,7 @@ class PackageJsonSynchronizer
         }
 
         $dependencies = [];
-
+        $entrypoints = $packageJson->read()['symfony']['entrypoints'] ?? [];
         foreach ($packageJson->read()['symfony']['importmap'] ?? [] as $importMapName => $constraintConfig) {
             if (\is_array($constraintConfig)) {
                 $constraint = $constraintConfig['version'] ?? [];
@@ -163,6 +163,7 @@ class PackageJsonSynchronizer
 
                 $dependencies[$importMapName] = [
                     'path' => $path,
+                    'entrypoint' => \in_array($importMapName, $entrypoints, true),
                 ];
 
                 continue;
@@ -239,7 +240,7 @@ class PackageJsonSynchronizer
     }
 
     /**
-     * @param array<string, array{path?: string, package?: string, version?: string}> $importMapEntries
+     * @param array<string, array{path?: string, package?: string, version?: string, entrypoint?: bool}> $importMapEntries
      */
     private function updateImportMap(array $importMapEntries): void
     {
@@ -267,8 +268,14 @@ class PackageJsonSynchronizer
                 $this->io->writeError(sprintf('Updating package <comment>%s</> from <info>%s</> to <info>%s</>.', $name, $version, $versionConstraint));
             }
 
+            $arguments = [];
+            if (isset($importMapEntry['entrypoint']) && $importMapEntry['entrypoint'] === true) {
+                $arguments[] = '--entrypoint';
+            }
+
             if (isset($importMapEntry['path'])) {
-                $arguments = [$name, '--path='.$importMapEntry['path']];
+                $arguments[] = $name;
+                $arguments[] = '--path='.$importMapEntry['path'];
                 $this->scriptExecutor->execute(
                     'symfony-cmd',
                     'importmap:require',
@@ -283,7 +290,7 @@ class PackageJsonSynchronizer
                 if ($importMapEntry['package'] !== $name) {
                     $packageName .= '='.$name;
                 }
-                $arguments = [$packageName];
+                $arguments[] = $packageName;
                 $this->scriptExecutor->execute(
                     'symfony-cmd',
                     'importmap:require',
