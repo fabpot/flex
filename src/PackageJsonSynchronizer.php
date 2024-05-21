@@ -269,7 +269,7 @@ class PackageJsonSynchronizer
             }
 
             $arguments = [];
-            if (isset($importMapEntry['entrypoint']) && $importMapEntry['entrypoint'] === true) {
+            if (isset($importMapEntry['entrypoint']) && true === $importMapEntry['entrypoint']) {
                 $arguments[] = '--entrypoint';
             }
 
