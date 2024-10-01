@@ -11,7 +11,10 @@
 
 namespace Symfony\Flex\Configurator;
 
+use Composer\Composer;
+use Composer\IO\IOInterface;
 use Symfony\Flex\Lock;
+use Symfony\Flex\Options;
 use Symfony\Flex\Recipe;
 use Symfony\Flex\Update\RecipeUpdate;
 
@@ -20,11 +23,24 @@ use Symfony\Flex\Update\RecipeUpdate;
  */
 class EnvConfigurator extends AbstractConfigurator
 {
+    private string $suffix;
+
+    public function __construct(Composer $composer, IOInterface $io, Options $options, string $suffix = '')
+    {
+        parent::__construct($composer, $io, $options);
+        $this->suffix = $suffix;
+    }
+
     public function configure(Recipe $recipe, $vars, Lock $lock, array $options = [])
     {
-        $this->write('Adding environment variable defaults');
+        $this->write('Adding environment variable defaults'.('' === $this->suffix ? '' : ' ('.$this->suffix.')'));
 
         $this->configureEnvDist($recipe, $vars, $options['force'] ?? false);
+
+        if ('' !== $this->suffix) {
+            return;
+        }
+
         if (!file_exists($this->options->get('root-dir').'/'.($this->options->get('runtime')['dotenv_path'] ?? '.env').'.test')) {
             $this->configurePhpUnit($recipe, $vars, $options['force'] ?? false);
         }
@@ -50,8 +66,9 @@ class EnvConfigurator extends AbstractConfigurator
     private function configureEnvDist(Recipe $recipe, $vars, bool $update)
     {
         $dotenvPath = $this->options->get('runtime')['dotenv_path'] ?? '.env';
+        $files = '' === $this->suffix ? [$dotenvPath.'.dist', $dotenvPath] : [$dotenvPath.'.'.$this->suffix];
 
-        foreach ([$dotenvPath.'.dist', $dotenvPath] as $file) {
+        foreach ($files as $file) {
             $env = $this->options->get('root-dir').'/'.$file;
             if (!is_file($env)) {
                 continue;
@@ -136,8 +153,9 @@ class EnvConfigurator extends AbstractConfigurator
     private function unconfigureEnvFiles(Recipe $recipe, $vars)
     {
         $dotenvPath = $this->options->get('runtime')['dotenv_path'] ?? '.env';
+        $files = '' === $this->suffix ? [$dotenvPath, $dotenvPath.'.dist'] : [$dotenvPath.'.'.$this->suffix];
 
-        foreach ([$dotenvPath, $dotenvPath.'.dist'] as $file) {
+        foreach ($files as $file) {
             $env = $this->options->get('root-dir').'/'.$file;
             if (!file_exists($env)) {
                 continue;
@@ -205,7 +223,7 @@ class EnvConfigurator extends AbstractConfigurator
     private function getContentsAfterApplyingRecipe(string $rootDir, Recipe $recipe, array $vars): array
     {
         $dotenvPath = $this->options->get('runtime')['dotenv_path'] ?? '.env';
-        $files = [$dotenvPath, $dotenvPath.'.dist', 'phpunit.xml.dist', 'phpunit.xml'];
+        $files = '' === $this->suffix ? [$dotenvPath, $dotenvPath.'.dist', 'phpunit.xml.dist', 'phpunit.xml'] : [$dotenvPath.'.'.$this->suffix];
 
         if (0 === \count($vars)) {
             return array_fill_keys($files, null);
@@ -222,7 +240,7 @@ class EnvConfigurator extends AbstractConfigurator
             true
         );
 
-        if (!file_exists($rootDir.'/'.$dotenvPath.'.test')) {
+        if ('' === $this->suffix && !file_exists($rootDir.'/'.$dotenvPath.'.test')) {
             $this->configurePhpUnit(
                 $recipe,
                 $vars,
