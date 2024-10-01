@@ -104,7 +104,7 @@ class Configurator
     private function get($key): AbstractConfigurator
     {
         if (!isset($this->configurators[$key]) && !isset($this->postInstallConfigurators[$key])) {
-            throw new \InvalidArgumentException(sprintf('Unknown configurator "%s".', $key));
+            throw new \InvalidArgumentException(\sprintf('Unknown configurator "%s".', $key));
         }
 
         if (isset($this->cache[$key])) {
