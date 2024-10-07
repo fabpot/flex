@@ -1,0 +1,7 @@
+---------------------------------------------------------------------------
+
+by nicolas-grekas at 2024-10-07T08:38:14Z
+
+I'm not sure why we end up with `9999999.9999999` in symfony.lock but at least this works around it.
+The issue is that composer accepts max 5 digits for the major version.
+I'm not sure because in Downloader.php, we append `.9999999`, but I don't see where we prefix by `9999999`
