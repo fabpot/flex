@@ -293,6 +293,10 @@ class Flex implements PluginInterface, EventSubscriberInterface
         $versionParser = new VersionParser();
         $packages = [];
         foreach ($this->lock->all() as $name => $info) {
+            if ('9999999.9999999' === $info['version']) {
+                // Fix invalid versions found in some lock files
+                $info['version'] = '99999.9999999';
+            }
             $packages[] = new Package($name, $versionParser->normalize($info['version']), $info['version']);
         }
 
