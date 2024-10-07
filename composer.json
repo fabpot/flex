@@ -21,6 +21,9 @@
         "symfony/phpunit-bridge": "^4.4.12|^5.0|^6.0",
         "symfony/process": "^4.4|^5.0|^6.0"
     },
+    "conflict": {
+        "composer/semver": "<1.7.2"
+    },
     "autoload": {
         "psr-4": {
             "Symfony\\Flex\\": "src"
