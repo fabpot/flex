@@ -50,7 +50,11 @@ class ComposerScriptsConfigurator extends AbstractConfigurator
     public function update(RecipeUpdate $recipeUpdate, array $originalConfig, array $newConfig): void
     {
         $json = new JsonFile(Factory::getComposerFile());
-        $jsonPath = Path::makeRelative($json->getPath(), $recipeUpdate->getRootDir());
+        $jsonPath = $json->getPath();
+        if (str_starts_with($jsonPath, $recipeUpdate->getRootDir())) {
+            $jsonPath = substr($jsonPath, strlen($recipeUpdate->getRootDir()));
+        }
+        $jsonPath = ltrim($jsonPath, '/\\'); 
 
         $recipeUpdate->setOriginalFile(
             $jsonPath,
