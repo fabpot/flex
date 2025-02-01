@@ -27,15 +27,18 @@ jobs:
                   - php: '7.4'
                   - php: '8.0'
                   - php: '8.1'
+                  - php: '8.2'
+                  - php: '8.3'
+                  - php: '8.4'
                   - php: '7.4'
                     mode: low-deps
 
         steps:
             - name: "Checkout code"
-              uses: actions/checkout@v2.3.3
+              uses: actions/checkout@v4
 
             - name: "Install PHP with extensions"
-              uses: shivammathur/setup-php@2.18.0
+              uses: shivammathur/setup-php@v2
               with:
                   coverage: "none"
                   php-version: ${{ matrix.php }}
