@@ -9,13 +9,17 @@
                 }
             }
         },
-        "entrypoints": ["admin.js", "@symfony/new-package/entry.js"],
+        "entrypoints": ["admin.js"],
         "importmap": {
             "@hotcake/foo": "^1.9.0",
             "@symfony/new-package": {
                 "version": "path:%PACKAGE%/dist/loader.js"
             },
-            "@symfony/new-package/entry.js": "path:%PACKAGE%/entry.js"
+            "@symfony/new-package/entry.js": "entrypoint:%PACKAGE%/entry.js",
+            "@symfony/new-package/entry2.js": {
+                "version": "path:%PACKAGE%/entry2.js",
+                "entrypoint": true
+            }
         }
     },
     "peerDependencies": {

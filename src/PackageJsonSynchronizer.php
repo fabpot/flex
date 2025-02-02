@@ -147,14 +147,24 @@ class PackageJsonSynchronizer
         }
 
         $dependencies = [];
-        $entrypoints = $packageJson->read()['symfony']['entrypoints'] ?? [];
         foreach ($packageJson->read()['symfony']['importmap'] ?? [] as $importMapName => $constraintConfig) {
-            if (\is_array($constraintConfig)) {
-                $constraint = $constraintConfig['version'] ?? [];
-                $package = $constraintConfig['package'] ?? $importMapName;
-            } else {
+            if (\is_string($constraintConfig)) {
+                // Case "jquery": "^3.0" | "@mybundle/script.js": "path:%PACKAGE%/script.js"
                 $constraint = $constraintConfig;
                 $package = $importMapName;
+                $entrypoint = false;
+            } else {
+                // Case "jquery": {"version": "^3.0"} | "@mybundle/script.js": {"version": "path:%PACKAGE%/script.js", "entrypoint": true}
+                // Note that non-path assets can't be entrypoint
+                $constraint = $constraintConfig['version'] ?? '';
+                $package = $constraintConfig['package'] ?? $importMapName;
+                $entrypoint = $constraintConfig['entrypoint'] ?? false;
+            }
+
+            // Case "@mybundle/script.js": "entrypoint:%PACKAGE%/script.js" | "@mybundle/script.js": {"version": "entrypoint:%PACKAGE%/script.js"}
+            if (0 === strpos($constraint, 'entrypoint:')) {
+                $entrypoint = true;
+                $constraint = str_replace('entrypoint:', 'path:', $constraint);
             }
 
             if (0 === strpos($constraint, 'path:')) {
@@ -163,7 +173,7 @@ class PackageJsonSynchronizer
 
                 $dependencies[$importMapName] = [
                     'path' => $path,
-                    'entrypoint' => \in_array($importMapName, $entrypoints, true),
+                    'entrypoint' => $entrypoint,
                 ];
 
                 continue;
@@ -269,11 +279,11 @@ class PackageJsonSynchronizer
             }
 
             $arguments = [];
-            if (isset($importMapEntry['entrypoint']) && true === $importMapEntry['entrypoint']) {
-                $arguments[] = '--entrypoint';
-            }
-
             if (isset($importMapEntry['path'])) {
+                if (isset($importMapEntry['entrypoint']) && true === $importMapEntry['entrypoint']) {
+                    $arguments[] = '--entrypoint';
+                }
+
                 $arguments[] = $name;
                 $arguments[] = '--path='.$importMapEntry['path'];
                 $this->scriptExecutor->execute(

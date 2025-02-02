@@ -189,7 +189,7 @@ class PackageJsonSynchronizerTest extends TestCase
                         ],
                     ],
                 ],
-                'entrypoints' => ['admin.js', '@symfony/new-package/entry.js'],
+                'entrypoints' => ['admin.js'],
             ],
             json_decode(file_get_contents($this->tempDir.'/assets/controllers.json'), true)
         );
@@ -324,13 +324,15 @@ class PackageJsonSynchronizerTest extends TestCase
 
         $fileModulePath = $this->tempDir.'/vendor/symfony/new-package/assets/dist/loader.js';
         $entrypointPath = $this->tempDir.'/vendor/symfony/new-package/assets/entry.js';
+        $secondEntrypointPath = $this->tempDir.'/vendor/symfony/new-package/assets/entry2.js';
 
-        $this->scriptExecutor->expects($this->exactly(3))
+        $this->scriptExecutor->expects($this->exactly(4))
             ->method('execute')
             ->withConsecutive(
                 ['symfony-cmd', 'importmap:require', ['@hotcake/foo@^1.9.0']],
                 ['symfony-cmd', 'importmap:require', ['@symfony/new-package', '--path='.$fileModulePath]],
-                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]]
+                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]],
+                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry2.js', '--path='.$secondEntrypointPath]]
             );
 
         $this->synchronizer->synchronize([
@@ -385,7 +387,7 @@ class PackageJsonSynchronizerTest extends TestCase
                         ],
                     ],
                 ],
-                'entrypoints' => ['admin.js', '@symfony/new-package/entry.js'],
+                'entrypoints' => ['admin.js'],
             ],
             json_decode(file_get_contents($this->tempDir.'/assets/controllers.json'), true)
         );
@@ -403,13 +405,15 @@ class PackageJsonSynchronizerTest extends TestCase
 
         $fileModulePath = $this->tempDir.'/vendor/symfony/new-package/assets/dist/loader.js';
         $entrypointPath = $this->tempDir.'/vendor/symfony/new-package/assets/entry.js';
+        $secondEntrypointPath = $this->tempDir.'/vendor/symfony/new-package/assets/entry2.js';
 
-        $this->scriptExecutor->expects($this->exactly(3))
+        $this->scriptExecutor->expects($this->exactly(4))
             ->method('execute')
             ->withConsecutive(
                 ['symfony-cmd', 'importmap:require', ['@hotcake/foo@^1.9.0']],
                 ['symfony-cmd', 'importmap:require', ['@symfony/new-package', '--path='.$fileModulePath]],
-                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]]
+                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]],
+                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry2.js', '--path='.$secondEntrypointPath]]
             );
 
         $this->synchronizer->synchronize([
@@ -427,6 +431,10 @@ class PackageJsonSynchronizerTest extends TestCase
                 // constraint in package.json is ^1.9.0
                 'version' => '1.9.1',
             ],
+            '@symfony/new-package/entry2.js' => [
+                'path' => './vendor/symfony/new-package/assets/entry2.js',
+                'entrypoint' => true,
+            ]
         ];
         file_put_contents($this->tempDir.'/importmap.php', sprintf('<?php return %s;', var_export($importMap, true)));
 
@@ -437,7 +445,7 @@ class PackageJsonSynchronizerTest extends TestCase
             ->method('execute')
             ->withConsecutive(
                 ['symfony-cmd', 'importmap:require', ['@symfony/new-package', '--path='.$fileModulePath]],
-                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]]
+                ['symfony-cmd', 'importmap:require', ['--entrypoint', '@symfony/new-package/entry.js', '--path='.$entrypointPath]],
             );
 
         $this->synchronizer->synchronize([
