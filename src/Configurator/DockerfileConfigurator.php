@@ -38,7 +38,7 @@ class DockerfileConfigurator extends AbstractConfigurator
         }
 
         $name = $recipe->getName();
-        $contents = preg_replace(sprintf('{%s+###> %s ###.*?###< %s ###%s+}s', "\n", $name, $name, "\n"), "\n", file_get_contents($dockerfile), -1, $count);
+        $contents = preg_replace(\sprintf('{%s+###> %s ###.*?###< %s ###%s+}s', "\n", $name, $name, "\n"), "\n", file_get_contents($dockerfile), -1, $count);
         if (!$count) {
             return;
         }

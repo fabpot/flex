@@ -64,7 +64,7 @@ class UnpackCommand extends BaseCommand
         $op = new Operation(true, $input->getOption('sort-packages') || $composer->getConfig()->get('sort-packages'));
         foreach ($versionParser->parseNameVersionPairs($packages) as $package) {
             if (null === $pkg = $installedRepo->findPackage($package['name'], '*')) {
-                $io->writeError(sprintf('<error>Package %s is not installed</>', $package['name']));
+                $io->writeError(\sprintf('<error>Package %s is not installed</>', $package['name']));
 
                 return 1;
             }
@@ -93,7 +93,7 @@ class UnpackCommand extends BaseCommand
 
         $io->writeError('<info>Unpacking Symfony packs</>');
         foreach ($result->getUnpacked() as $pkg) {
-            $io->writeError(sprintf('  - Unpacked <info>%s</>', $pkg->getName()));
+            $io->writeError(\sprintf('  - Unpacked <info>%s</>', $pkg->getName()));
         }
 
         $unpacker->updateLock($result, $io);

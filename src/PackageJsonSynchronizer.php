@@ -264,7 +264,7 @@ class PackageJsonSynchronizer
                     continue;
                 }
 
-                $this->io->writeError(sprintf('Updating package <comment>%s</> from <info>%s</> to <info>%s</>.', $name, $version, $versionConstraint));
+                $this->io->writeError(\sprintf('Updating package <comment>%s</> from <info>%s</> to <info>%s</>.', $name, $version, $versionConstraint));
             }
 
             if (isset($importMapEntry['path'])) {
@@ -293,7 +293,7 @@ class PackageJsonSynchronizer
                 continue;
             }
 
-            throw new \InvalidArgumentException(sprintf('Invalid importmap entry: "%s".', var_export($importMapEntry, true)));
+            throw new \InvalidArgumentException(\sprintf('Invalid importmap entry: "%s".', var_export($importMapEntry, true)));
         }
     }
 

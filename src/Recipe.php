@@ -51,7 +51,7 @@ class Recipe
     public function getManifest(): array
     {
         if (!isset($this->data['manifest'])) {
-            throw new \LogicException(sprintf('Manifest is not available for recipe "%s".', $this->name));
+            throw new \LogicException(\sprintf('Manifest is not available for recipe "%s".', $this->name));
         }
 
         return $this->data['manifest'];
@@ -78,7 +78,7 @@ class Recipe
             return $this->getOrigin();
         }
 
-        return sprintf('<info>%s</> (<comment>>=%s</>): From %s', $matches[1], $matches[2], 'auto-generated recipe' === $matches[3] ? '<comment>'.$matches[3].'</>' : $matches[3]);
+        return \sprintf('<info>%s</> (<comment>>=%s</>): From %s', $matches[1], $matches[2], 'auto-generated recipe' === $matches[3] ? '<comment>'.$matches[3].'</>' : $matches[3]);
     }
 
     public function getURL(): string
@@ -93,7 +93,7 @@ class Recipe
             return '';
         }
 
-        return sprintf('https://%s/tree/%s/%s/%s', $matches[3], $matches[4], $matches[1], $matches[2]);
+        return \sprintf('https://%s/tree/%s/%s/%s', $matches[3], $matches[4], $matches[1], $matches[2]);
     }
 
     public function isContrib(): bool

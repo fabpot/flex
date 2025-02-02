@@ -143,12 +143,12 @@ class EnvConfigurator extends AbstractConfigurator
                 continue;
             }
 
-            $contents = preg_replace(sprintf('{%s*###> %s ###.*###< %s ###%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($env), -1, $count);
+            $contents = preg_replace(\sprintf('{%s*###> %s ###.*###< %s ###%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($env), -1, $count);
             if (!$count) {
                 continue;
             }
 
-            $this->write(sprintf('Removing environment variables from %s', $file));
+            $this->write(\sprintf('Removing environment variables from %s', $file));
             file_put_contents($env, $contents);
         }
     }
@@ -161,12 +161,12 @@ class EnvConfigurator extends AbstractConfigurator
                 continue;
             }
 
-            $contents = preg_replace(sprintf('{%s*\s+<!-- ###\+ %s ### -->.*<!-- ###- %s ### -->%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($phpunit), -1, $count);
+            $contents = preg_replace(\sprintf('{%s*\s+<!-- ###\+ %s ### -->.*<!-- ###- %s ### -->%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($phpunit), -1, $count);
             if (!$count) {
                 continue;
             }
 
-            $this->write(sprintf('Removing environment variables from %s', $file));
+            $this->write(\sprintf('Removing environment variables from %s', $file));
             file_put_contents($phpunit, $contents);
         }
     }
@@ -265,7 +265,7 @@ class EnvConfigurator extends AbstractConfigurator
 
         $lines = explode("\n", $section);
         foreach ($lines as $line) {
-            if (0 !== strpos($line, sprintf('%s=', $var))) {
+            if (0 !== strpos($line, \sprintf('%s=', $var))) {
                 continue;
             }
 
