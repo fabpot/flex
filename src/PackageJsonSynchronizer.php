@@ -147,6 +147,7 @@ class PackageJsonSynchronizer
         }
 
         $dependencies = [];
+
         foreach ($packageJson->read()['symfony']['importmap'] ?? [] as $importMapName => $constraintConfig) {
             if (\is_string($constraintConfig)) {
                 // Case "jquery": "^3.0" | "@mybundle/script.js": "path:%PACKAGE%/script.js"
@@ -278,14 +279,12 @@ class PackageJsonSynchronizer
                 $this->io->writeError(sprintf('Updating package <comment>%s</> from <info>%s</> to <info>%s</>.', $name, $version, $versionConstraint));
             }
 
-            $arguments = [];
             if (isset($importMapEntry['path'])) {
+                $arguments = [$name, '--path='.$importMapEntry['path']];
                 if (isset($importMapEntry['entrypoint']) && true === $importMapEntry['entrypoint']) {
                     $arguments[] = '--entrypoint';
                 }
 
-                $arguments[] = $name;
-                $arguments[] = '--path='.$importMapEntry['path'];
                 $this->scriptExecutor->execute(
                     'symfony-cmd',
                     'importmap:require',
@@ -300,7 +299,7 @@ class PackageJsonSynchronizer
                 if ($importMapEntry['package'] !== $name) {
                     $packageName .= '='.$name;
                 }
-                $arguments[] = $packageName;
+                $arguments = [$packageName];
                 $this->scriptExecutor->execute(
                     'symfony-cmd',
                     'importmap:require',
