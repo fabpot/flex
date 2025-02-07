@@ -80,7 +80,7 @@ class ParallelDownloader extends RemoteFilesystem
             }
 
             $this->io->writeError('');
-            $this->io->writeError(sprintf('<info>Prefetching %d packages</> %s', $this->downloadCount, $note));
+            $this->io->writeError(\sprintf('<info>Prefetching %d packages</> %s', $this->downloadCount, $note));
             $this->io->writeError('  - Downloading', false);
             if ($this->progress) {
                 $this->io->writeError(' (<comment>0%</>)', false);
@@ -118,17 +118,11 @@ class ParallelDownloader extends RemoteFilesystem
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastHeaders(): array
     {
         return $this->lastHeaders ?? parent::getLastHeaders();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function copy($originUrl, $fileUrl, $fileName, $progress = true, $options = [])
     {
         $options = array_replace_recursive($this->nextOptions, $options);
@@ -145,9 +139,6 @@ class ParallelDownloader extends RemoteFilesystem
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getContents($originUrl, $fileUrl, $progress = true, $options = [])
     {
         return $this->copy($originUrl, $fileUrl, null, $progress, $options);
@@ -197,7 +188,7 @@ class ParallelDownloader extends RemoteFilesystem
 
             if (5 <= $progress - $state->lastProgress || 1 <= $progressTime - $state->lastUpdate) {
                 $state->lastProgress = $progress;
-                $this->io->overwriteError(sprintf(' (<comment>%d%%</>)', $progress), false);
+                $this->io->overwriteError(\sprintf(' (<comment>%d%%</>)', $progress), false);
                 $state->lastUpdate = microtime(true);
             }
         }
@@ -213,9 +204,6 @@ class ParallelDownloader extends RemoteFilesystem
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getRemoteContents($originUrl, $fileUrl, $context, ?array &$responseHeaders = null, $maxFileSize = null)
     {
         if (isset(self::$cache[$fileUrl])) {

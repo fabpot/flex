@@ -15,7 +15,6 @@ use Composer\Composer;
 use Composer\Installer\InstallationManager;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
-use LogicException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Flex\Configurator\CopyFromPackageConfigurator;
 use Symfony\Flex\Lock;
@@ -74,8 +73,8 @@ class CopyFromPackageConfiguratorTest extends TestCase
     public function testSourceFileNotExist()
     {
         $this->io->expects($this->once())->method('writeError')->with(['    Copying files from package']);
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage(sprintf('File "%s" does not exist!', $this->sourceFile));
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(\sprintf('File "%s" does not exist!', $this->sourceFile));
         $lock = $this->getMockBuilder(Lock::class)->disableOriginalConstructor()->getMock();
         $this->createConfigurator()->configure($this->recipe, [$this->sourceFileRelativePath => $this->targetFileRelativePath], $lock);
     }

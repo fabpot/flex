@@ -4,16 +4,12 @@ $finder = PhpCsFixer\Finder::create()->in(__DIR__);
 
 return (new PhpCsFixer\Config())
     ->setFinder($finder)
-    ->setRules(array(
+    ->setRules([
         '@Symfony' => true,
         '@Symfony:risky' => true,
         'fopen_flags' => false,
-        '@PHPUnit48Migration:risky' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'ordered_imports' => true,
-        'php_unit_no_expectation_annotation' => false, // part of `PHPUnitXYMigration:risky` ruleset, to be enabled when PHPUnit 4.x support will be dropped, as we don't want to rewrite exceptions handling twice
-        'nullable_type_declaration_for_default_null_value' => true,
+        'modernize_strpos' => false, // requires PHP 8
         'protected_to_private' => false,
-    ))
+    ])
     ->setRiskyAllowed(true)
 ;

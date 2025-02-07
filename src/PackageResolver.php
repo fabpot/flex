@@ -131,7 +131,7 @@ class PackageResolver
 
         // First position can only be a package name, not a version
         if ($alternatives || 0 === $position) {
-            $message = sprintf('"%s" is not a valid alias.', $argument);
+            $message = \sprintf('"%s" is not a valid alias.', $argument);
             if ($alternatives) {
                 if (1 === \count($alternatives)) {
                     $message .= " Did you mean this:\n";
@@ -139,11 +139,11 @@ class PackageResolver
                     $message .= " Did you mean one of these:\n";
                 }
                 foreach ($alternatives as $package => $aliases) {
-                    $message .= sprintf("  \"%s\", supported aliases: \"%s\"\n", $package, implode('", "', $aliases));
+                    $message .= \sprintf("  \"%s\", supported aliases: \"%s\"\n", $package, implode('", "', $aliases));
                 }
             }
         } else {
-            $message = sprintf('Could not parse version constraint "%s".', $argument);
+            $message = \sprintf('Could not parse version constraint "%s".', $argument);
         }
 
         throw new \UnexpectedValueException($message);

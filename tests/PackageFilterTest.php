@@ -78,8 +78,8 @@ class PackageFilterTest extends TestCase
         foreach ($configs as $name => $versions) {
             foreach ($versions as $version => $extra) {
                 $packages[] = $l->load([
-                        'name' => $name,
-                        'version' => $version,
+                    'name' => $name,
+                    'version' => $version,
                 ] + $extra, CompletePackage::class);
             }
         }
