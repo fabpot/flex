@@ -1,0 +1,16 @@
+---------------------------------------------------------------------------
+
+by rosier at 2025-02-03T21:17:16Z
+
+The fabbot suggests a few more changes but I not sure if all work on PHP 7.1
+
+---------------------------------------------------------------------------
+
+by rosier at 2025-02-05T20:35:08Z
+
+The fabbot suggest one more change but that requires PHP 8
+
+```
+-                if (0 === strpos(\get_class($plugin), 'Hirak\Prestissimo\Plugin')) {
++                if (0 === strpos($plugin::class, 'Hirak\Prestissimo\Plugin')) {
+```
