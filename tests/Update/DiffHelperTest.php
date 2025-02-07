@@ -118,7 +118,7 @@ index ea34452..daaeb63 100644
 -# For an SQLite database, use: "sqlite:///%kernel.project_dir%/var/data.db"
 -# For a PostgreSQL database, use: "postgresql://db_user:db_password@127.0.0.1:5432/db_name?serverVersion=11&charset=utf8"
  # IMPORTANT: You MUST configure your server version, either here or in config/packages/doctrine.yaml
-EOF
+EOF,
             ],
         ];
 
@@ -169,7 +169,7 @@ index 5e80e77..c319176 100644
 +        #server_version: '13'
      orm:
          auto_generate_proxy_classes: true
-EOF
+EOF,
             ],
         ];
 
@@ -220,7 +220,7 @@ index 0000000..34c2ebc
 +    dbal:
 +        # "TEST_TOKEN" is typically set by ParaTest
 +        dbname_suffix: '_test%env(default::TEST_TOKEN)%'
-EOF
+EOF,
             ],
         ];
 
@@ -273,7 +273,7 @@ index 5e80e77..c319176 100644
 +        #server_version: '13'
      orm:
          auto_generate_proxy_classes: true
-EOF
+EOF,
             ],
         ];
 
@@ -328,7 +328,7 @@ index 8ae31a3..17299e2 100644
 -            type: pool
 -            pool: doctrine.system_cache_pool
          query_cache_driver:
-EOF
+EOF,
             ],
         ];
     }
