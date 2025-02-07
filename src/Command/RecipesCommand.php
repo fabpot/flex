@@ -81,7 +81,7 @@ class RecipesCommand extends BaseCommand
                 $pkgVersion = $this->symfonyLock->get($name)['version'];
                 $pkg = new Package($name, $pkgVersion, $pkgVersion);
             } elseif (!$pkg) {
-                $this->getIO()->writeError(sprintf('<error>Package %s is not installed</error>', $name));
+                $this->getIO()->writeError(\sprintf('<error>Package %s is not installed</error>', $name));
 
                 continue;
             }
@@ -125,7 +125,7 @@ class RecipesCommand extends BaseCommand
             }
 
             $hasOutdatedRecipes = true;
-            $write[] = sprintf(' * %s %s', $name, $additional);
+            $write[] = \sprintf(' * %s %s', $name, $additional);
         }
 
         // Nothing to display
@@ -136,7 +136,7 @@ class RecipesCommand extends BaseCommand
         $this->getIO()->write(array_merge([
             '',
             '<bg=blue;fg=white>                      </>',
-            sprintf('<bg=blue;fg=white> %s recipes.   </>', $outdated ? ' Outdated' : 'Available'),
+            \sprintf('<bg=blue;fg=white> %s recipes.   </>', $outdated ? ' Outdated' : 'Available'),
             '<bg=blue;fg=white>                      </>',
             '',
         ], $write, [
@@ -200,7 +200,7 @@ class RecipesCommand extends BaseCommand
         $io->write('<info>version</info>          : '.($lockVersion ?? 'n/a'));
         $io->write('<info>status</info>           : '.$status);
         if (!$recipe->isAuto() && null !== $lockVersion) {
-            $recipeUrl = sprintf(
+            $recipeUrl = \sprintf(
                 'https://%s/tree/%s/%s/%s',
                 $lockRepo,
                 // if something fails, default to the branch as the closest "sha"
@@ -217,7 +217,7 @@ class RecipesCommand extends BaseCommand
         }
 
         if ($lockRef !== $recipe->getRef() && null !== $lockVersion) {
-            $historyUrl = sprintf(
+            $historyUrl = \sprintf(
                 'https://%s/commits/%s/%s',
                 $lockRepo,
                 $lockBranch,
@@ -249,7 +249,7 @@ class RecipesCommand extends BaseCommand
             $io->write([
                 '',
                 'Update this recipe by running:',
-                sprintf('<info>composer recipes:update %s</info>', $recipe->getName()),
+                \sprintf('<info>composer recipes:update %s</info>', $recipe->getName()),
             ]);
         }
     }
@@ -292,7 +292,7 @@ class RecipesCommand extends BaseCommand
                 $treeBar = '└';
             }
 
-            $info = sprintf(
+            $info = \sprintf(
                 '%s──%s',
                 $treeBar,
                 $dir
@@ -319,7 +319,7 @@ class RecipesCommand extends BaseCommand
                 $treeBar = $previousTreeBar.'  └';
             }
 
-            $info = sprintf(
+            $info = \sprintf(
                 '%s──%s',
                 $treeBar,
                 $dir

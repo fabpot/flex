@@ -84,7 +84,7 @@ EOF;
     private function loadEnv(string $path, ?string $env, array $runtime): array
     {
         if (!file_exists($autoloadFile = $this->config->get('vendor-dir').'/autoload.php')) {
-            throw new \RuntimeException(sprintf('Please run "composer install" before running this command: "%s" not found.', $autoloadFile));
+            throw new \RuntimeException(\sprintf('Please run "composer install" before running this command: "%s" not found.', $autoloadFile));
         }
 
         require $autoloadFile;
@@ -112,7 +112,7 @@ EOF;
             }
 
             if (!$env) {
-                throw new \RuntimeException(sprintf('Please provide the name of the environment either by passing it as command line argument or by defining the "%s" variable in the ".env.local" file.', $envKey));
+                throw new \RuntimeException(\sprintf('Please provide the name of the environment either by passing it as command line argument or by defining the "%s" variable in the ".env.local" file.', $envKey));
             }
 
             $testEnvs = $runtime['test_envs'] ?? ['test'];

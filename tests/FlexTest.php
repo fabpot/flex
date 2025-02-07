@@ -163,7 +163,7 @@ EOF
                 }
 
                 $expectedManifest = [
-                    'origin' => sprintf('%s:%s@auto-generated recipe', $package->getName(),
+                    'origin' => \sprintf('%s:%s@auto-generated recipe', $package->getName(),
                         $package->getPrettyVersion()),
                     'manifest' => ['bundles' => []],
                 ];

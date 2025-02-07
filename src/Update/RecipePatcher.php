@@ -42,7 +42,7 @@ class RecipePatcher
 
         foreach ($patch->getDeletedFiles() as $deletedFile) {
             if (file_exists($this->rootDir.'/'.$deletedFile)) {
-                $this->execute(sprintf('git rm %s', ProcessExecutor::escape($deletedFile)), $this->rootDir);
+                $this->execute(\sprintf('git rm %s', ProcessExecutor::escape($deletedFile)), $this->rootDir);
             }
         }
 
@@ -106,7 +106,7 @@ class RecipePatcher
             $this->writeFiles($newFiles, $tmpPath);
             $this->execute('git add -A', $tmpPath);
 
-            $patchString = $this->execute(sprintf('git diff --cached --src-prefix "a/%s" --dst-prefix "b/%s"', $prefix, $prefix), $tmpPath);
+            $patchString = $this->execute(\sprintf('git diff --cached --src-prefix "a/%s" --dst-prefix "b/%s"', $prefix, $prefix), $tmpPath);
             $removedPatches = [];
             $patchString = DiffHelper::removeFilesFromPatch($patchString, $deletedModifiedFiles, $removedPatches);
 
@@ -151,7 +151,7 @@ class RecipePatcher
         $statusCode = $this->processExecutor->execute($command, $output, $cwd);
 
         if (0 !== $statusCode) {
-            throw new \LogicException(sprintf('Command "%s" failed: "%s". Output: "%s".', $command, $this->processExecutor->getErrorOutput(), $output));
+            throw new \LogicException(\sprintf('Command "%s" failed: "%s". Output: "%s".', $command, $this->processExecutor->getErrorOutput(), $output));
         }
 
         return $output;
@@ -252,7 +252,7 @@ class RecipePatcher
     {
         $args = implode(' ', array_map([ProcessExecutor::class, 'escape'], $fileNames));
         $output = '';
-        $this->processExecutor->execute(sprintf('git check-ignore %s', $args), $output, $this->rootDir);
+        $this->processExecutor->execute(\sprintf('git check-ignore %s', $args), $output, $this->rootDir);
 
         return $this->processExecutor->splitLines($output);
     }

@@ -396,7 +396,7 @@ class PackageJsonSynchronizerTest extends TestCase
                 'version' => '1.8.0',
             ],
         ];
-        file_put_contents($this->tempDir.'/importmap.php', sprintf('<?php return %s;', var_export($importMap, true)));
+        file_put_contents($this->tempDir.'/importmap.php', \sprintf('<?php return %s;', var_export($importMap, true)));
 
         $fileModulePath = $this->tempDir.'/vendor/symfony/new-package/assets/dist/loader.js';
         $this->scriptExecutor->expects($this->exactly(2))
@@ -422,7 +422,7 @@ class PackageJsonSynchronizerTest extends TestCase
                 'version' => '1.9.1',
             ],
         ];
-        file_put_contents($this->tempDir.'/importmap.php', sprintf('<?php return %s;', var_export($importMap, true)));
+        file_put_contents($this->tempDir.'/importmap.php', \sprintf('<?php return %s;', var_export($importMap, true)));
 
         $fileModulePath = $this->tempDir.'/vendor/symfony/new-package/assets/dist/loader.js';
         $this->scriptExecutor->expects($this->once())

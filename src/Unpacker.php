@@ -53,10 +53,10 @@ class Unpacker
 
             // not unpackable or no --unpack flag or empty packs (markers)
             if (
-                null === $pkg ||
-                'symfony-pack' !== $pkg->getType() ||
-                !$op->shouldUnpack() ||
-                0 === \count($pkg->getRequires()) + \count($pkg->getDevRequires())
+                null === $pkg
+                || 'symfony-pack' !== $pkg->getType()
+                || !$op->shouldUnpack()
+                || 0 === \count($pkg->getRequires()) + \count($pkg->getDevRequires())
             ) {
                 $result->addRequired($package['name'].($package['version'] ? ':'.$package['version'] : ''));
 
@@ -75,7 +75,7 @@ class Unpacker
 
             foreach ($devRequires as $i => $link) {
                 if (!isset($requires[$link->getTarget()])) {
-                    throw new \RuntimeException(sprintf('Symfony pack "%s" must duplicate all entries from "require-dev" into "require" but entry "%s" was not found.', $package['name'], $link->getTarget()));
+                    throw new \RuntimeException(\sprintf('Symfony pack "%s" must duplicate all entries from "require-dev" into "require" but entry "%s" was not found.', $package['name'], $link->getTarget()));
                 }
                 $devRequires[$i] = $requires[$link->getTarget()];
                 unset($requires[$link->getTarget()]);
@@ -161,7 +161,7 @@ class Unpacker
             $constraint = end($link['constraints']);
 
             if (!$jsonManipulator->addLink($link['type'], $link['name'], $constraint->getPrettyString(), $op->shouldSort())) {
-                throw new \RuntimeException(sprintf('Unable to unpack package "%s".', $link['name']));
+                throw new \RuntimeException(\sprintf('Unable to unpack package "%s".', $link['name']));
             }
         }
 

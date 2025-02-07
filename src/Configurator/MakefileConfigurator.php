@@ -33,12 +33,12 @@ class MakefileConfigurator extends AbstractConfigurator
             return;
         }
 
-        $contents = preg_replace(sprintf('{%s*###> %s ###.*###< %s ###%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($makefile), -1, $count);
+        $contents = preg_replace(\sprintf('{%s*###> %s ###.*###< %s ###%s+}s', "\n", $recipe->getName(), $recipe->getName(), "\n"), "\n", file_get_contents($makefile), -1, $count);
         if (!$count) {
             return;
         }
 
-        $this->write(sprintf('Removing Makefile entries from %s', $makefile));
+        $this->write(\sprintf('Removing Makefile entries from %s', $makefile));
         if (!trim($contents)) {
             @unlink($makefile);
         } else {

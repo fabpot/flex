@@ -49,7 +49,7 @@ return [
 ];
 
 EOF
-        , file_get_contents($config));
+            , file_get_contents($config));
     }
 
     public function testConfigureWhenBundlesAlreadyExists()
@@ -86,7 +86,7 @@ return [
 ];
 
 EOF
-        , file_get_contents(FLEX_TEST_DIR.'/config/bundles.php'));
+            , file_get_contents(FLEX_TEST_DIR.'/config/bundles.php'));
     }
 
     public function testUnconfigure()
@@ -123,7 +123,7 @@ return [
 ];
 
 EOF
-        , file_get_contents(FLEX_TEST_DIR.'/config/bundles.php'));
+            , file_get_contents(FLEX_TEST_DIR.'/config/bundles.php'));
     }
 
     public function testUpdate()

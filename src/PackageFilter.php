@@ -101,7 +101,7 @@ class PackageFilter
             if ('symfony/symfony' === $name) {
                 $symfonyPackages[] = $package;
             } elseif (null !== $this->io) {
-                $this->io->writeError(sprintf('<info>Restricting packages listed in "symfony/symfony" to "%s"</>', $this->symfonyRequire));
+                $this->io->writeError(\sprintf('<info>Restricting packages listed in "symfony/symfony" to "%s"</>', $this->symfonyRequire));
                 $this->io = null;
             }
         }
