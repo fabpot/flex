@@ -142,7 +142,7 @@ EOF
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
-EOF
+EOF,
             ],
         ]);
 
@@ -191,7 +191,7 @@ EOF;
                 'content' => <<<EOF
 
     // some new line
-EOF
+EOF,
             ],
         ]);
 
@@ -375,7 +375,7 @@ EOF
 import * as Turbo from '@hotwired/turbo';
 
 console.log(Turbo);
-EOF
+EOF,
         ];
 
         yield 'found_top' => [
@@ -391,7 +391,7 @@ EOF
 import './bootstrap';
 
 console.log(Turbo);
-EOF
+EOF,
         ];
 
         yield 'found_bottom' => [
@@ -407,7 +407,7 @@ EOF
 import * as Turbo from '@hotwired/turbo';
 import './bootstrap';
 
-EOF
+EOF,
         ];
 
         yield 'not_found' => [
@@ -424,7 +424,7 @@ import * as Turbo from '@hotwired/turbo';
 import './bootstrap';
 
 console.log(Turbo);
-EOF
+EOF,
         ];
 
         yield 'found_twice_in_file' => [
@@ -442,7 +442,7 @@ import * as Turbo from '@hotwired/turbo';
 import './bootstrap';
 
 console.log(Turbo);
-EOF
+EOF,
         ];
     }
 
@@ -535,7 +535,7 @@ import * as Turbo from '@hotwired/turbo';
 console.log('bootstrap.js');
 
 console.log('on the bottom');
-EOF
+EOF,
             ],
         ];
 

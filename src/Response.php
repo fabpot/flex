@@ -65,9 +65,6 @@ class Response implements \JsonSerializable
         return $response;
     }
 
-    /**
-     * @return mixed
-     */
     #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
