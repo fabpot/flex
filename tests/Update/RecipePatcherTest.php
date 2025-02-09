@@ -103,7 +103,7 @@ index b3b20af..4e66429 100644
 \ No newline at end of file
 +Updated file2
 \ No newline at end of file
-EOF,
+EOF
         ];
 
         yield 'file_created_in_update_because_missing' => [
@@ -118,7 +118,7 @@ index 0000000..b78ca63
 @@ -0,0 +1 @@
 +New file
 \ No newline at end of file
-EOF,
+EOF
         ];
 
         yield 'file_created_in_update_because_null' => [
@@ -133,7 +133,7 @@ index 0000000..b78ca63
 @@ -0,0 +1 @@
 +New file
 \ No newline at end of file
-EOF,
+EOF
         ];
 
         yield 'file_deleted_in_update_because_missing' => [
@@ -491,7 +491,7 @@ APP_SECRET=cd0019c56963e76bacd77eee67e1b222
 # For an SQL-HEAVY database, use: "sqlheavy:///%kernel.project_dir%/var/data.db"
 DATABASE_URL=sqlite:///%kernel.project_dir%/var/data.db
 ###< doctrine/doctrine-bundle ###
-EOF,
+EOF
             ],
 
             // package.json
@@ -536,7 +536,7 @@ EOF
         "@symfony/webpack-encore": "^1.7.0"
     }
 }
-EOF,
+EOF
             ],
 
             // config/packages/webpack_encore.yaml
@@ -557,7 +557,7 @@ webpack_encore:
     output_path: '%kernel.project_dir%/public/build'
     # If multiple builds are defined (as shown below), you can disable the default build:
     # output_path: false
-EOF,
+EOF
             ],
 
             // config/packages/security.yaml
