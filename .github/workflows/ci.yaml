@@ -37,12 +37,18 @@ jobs:
             - name: "Checkout code"
               uses: actions/checkout@v4
 
-            - name: "Install PHP with extensions"
+            - name: "Install PHP"
               uses: shivammathur/setup-php@v2
               with:
                   coverage: "none"
                   php-version: ${{ matrix.php }}
                   tools: composer:${{ matrix.composer }}
+
+            - if: matrix.php == '7.1'
+              name: "Lint PHP files"
+              run: |
+                find src/ -name '*.php' | xargs -n1 php -l
+                find tests/ -name '*.php' | xargs -n1 php -l
 
             - name: "Validate composer.json"
               run: "composer validate --strict --no-check-lock"
@@ -71,7 +77,3 @@ jobs:
                 fi
 
             - run: vendor/bin/simple-phpunit
-
-            - if: matrix.php == '7.1'
-              name: "Lint PHP files"
-              run: find src/ -name '*.php' | xargs -n1 php -l
