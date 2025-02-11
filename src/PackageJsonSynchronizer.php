@@ -149,12 +149,23 @@ class PackageJsonSynchronizer
         $dependencies = [];
 
         foreach ($packageJson->read()['symfony']['importmap'] ?? [] as $importMapName => $constraintConfig) {
-            if (\is_array($constraintConfig)) {
-                $constraint = $constraintConfig['version'] ?? [];
-                $package = $constraintConfig['package'] ?? $importMapName;
-            } else {
+            if (\is_string($constraintConfig)) {
+                // Case "jquery": "^3.0" | "@mybundle/script.js": "path:%PACKAGE%/script.js"
                 $constraint = $constraintConfig;
                 $package = $importMapName;
+                $entrypoint = false;
+            } else {
+                // Case "jquery": {"version": "^3.0"} | "@mybundle/script.js": {"version": "path:%PACKAGE%/script.js", "entrypoint": true}
+                // Note that non-path assets can't be entrypoint
+                $constraint = $constraintConfig['version'] ?? '';
+                $package = $constraintConfig['package'] ?? $importMapName;
+                $entrypoint = $constraintConfig['entrypoint'] ?? false;
+            }
+
+            // Case "@mybundle/script.js": "entrypoint:%PACKAGE%/script.js" | "@mybundle/script.js": {"version": "entrypoint:%PACKAGE%/script.js"}
+            if (0 === strpos($constraint, 'entrypoint:')) {
+                $entrypoint = true;
+                $constraint = str_replace('entrypoint:', 'path:', $constraint);
             }
 
             if (0 === strpos($constraint, 'path:')) {
@@ -163,6 +174,7 @@ class PackageJsonSynchronizer
 
                 $dependencies[$importMapName] = [
                     'path' => $path,
+                    'entrypoint' => $entrypoint,
                 ];
 
                 continue;
@@ -239,7 +251,7 @@ class PackageJsonSynchronizer
     }
 
     /**
-     * @param array<string, array{path?: string, package?: string, version?: string}> $importMapEntries
+     * @param array<string, array{path?: string, package?: string, version?: string, entrypoint?: bool}> $importMapEntries
      */
     private function updateImportMap(array $importMapEntries): void
     {
@@ -269,6 +281,10 @@ class PackageJsonSynchronizer
 
             if (isset($importMapEntry['path'])) {
                 $arguments = [$name, '--path='.$importMapEntry['path']];
+                if (isset($importMapEntry['entrypoint']) && true === $importMapEntry['entrypoint']) {
+                    $arguments[] = '--entrypoint';
+                }
+
                 $this->scriptExecutor->execute(
                     'symfony-cmd',
                     'importmap:require',
